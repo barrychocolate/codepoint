@@ -1,4 +1,4 @@
-# Shapefile Merger and Geodatabase Saver
+# Merge and Dissolve Codepoint Postcode shape files
 
 ## Overview
 This Python project is designed to work with Ordnance Survey's [Codepoint with polygons](https://www.ordnancesurvey.co.uk/products/code-point-polygons), which provides polygons for Great Britain's 1.6 million postcodes. The script processes 120 shapefiles, each representing a set of postcode polygons, and merges them into a single feature class stored in an Esri geodatabase. After combining the shapefiles, the process dissolves the postcode boundaries to create broader postcode area polygons. 
