@@ -16,7 +16,7 @@ output_gdb = output_folder + output_name
 # Check if the geodatabase exists, and if not, create it
 if not arcpy.Exists(output_gdb):
     arcpy.CreateFileGDB_management(output_folder, output_name)
-    print(f"Created geodatabase: {output_gdb}")
+    #print(f"Created geodatabase: {output_gdb}")
     arcpy.AddMessage(f"Created geodatabase: {output_gdb}")
 
 # Create a list to hold shapefile paths
@@ -27,7 +27,7 @@ for file in os.listdir(shapefile_folder):
     if file.endswith(".shp"):
         shapefiles.append(os.path.join(shapefile_folder, file))
 
-print(f'There are {len(shapefiles)} shapefiles')
+#print(f'There are {len(shapefiles)} shapefiles')
 arcpy.AddMessage(f'There are {len(shapefiles)} shapefiles')
 
 # Define the output feature layer in memory
@@ -50,6 +50,15 @@ arcpy.management.CopyFeatures(
     merged_layer,
     output_gdb + '/codepoint'
 )
+arcpy.AddMessage(f'codepoint layer created in geodatabase')
+
+# output to shape file
+arcpy.CopyFeatures_management(
+    merged_layer, 
+    output_folder + '\codepoint.shp'
+)
+arcpy.AddMessage(f'codepoint layer created in shapefile')
+
 
 arcpy.management.Dissolve(
     in_features=merged_layer,
@@ -66,7 +75,17 @@ arcpy.management.CopyFeatures(
     dissolved_layer,
     output_gdb + '/postcode_areas'
 )
+arcpy.AddMessage(f'postcode area layer created in geodatabase')
+
+# output to shape file
+arcpy.CopyFeatures_management(
+    dissolved_layer,
+    output_folder + '\postcode_areas.shp'
+)
+arcpy.AddMessage(f'postcode area layer created in shapefile')
 
 # delete from memory
 arcpy.Delete_management(merged_layer)
 arcpy.Delete_management(dissolved_layer)
+
+arcpy.AddMessage(f'Process complete')
